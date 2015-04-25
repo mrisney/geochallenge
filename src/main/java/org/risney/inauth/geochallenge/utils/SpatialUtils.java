@@ -6,8 +6,7 @@ import org.risney.inauth.geochallenge.model.LatLong;
 
 public class SpatialUtils {
 
-	public static double distance(double lat1, double lon1, double lat2,
-			double lon2, String sr) {
+	public static double distance(double lat1, double lon1, double lat2, double lon2, String sr) {
 
 		double theta = lon1 - lon2;
 		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2))
@@ -52,8 +51,7 @@ public class SpatialUtils {
 		// Hiroshima, japan
 		double[] latlong2 = { 42.9758f, 141.5672f };
 
-		double distance = SpatialUtils.distance(latlong1[0], latlong1[1],
-				latlong2[0], latlong2[1], "M");
+		double distance = SpatialUtils.distance(latlong1[0], latlong1[1],latlong2[0], latlong2[1], "M");
 		System.out.println("distance = " + distance);
 
 	}

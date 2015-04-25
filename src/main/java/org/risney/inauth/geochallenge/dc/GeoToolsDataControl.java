@@ -34,34 +34,13 @@ public class GeoToolsDataControl {
 	private File file;
 	private static final Logger logger = Logger.getLogger(GeoToolsDataControl.class.getName());
 
-	public static void main(String[] args) throws IOException {
 
-		String shapeFile = "/Users/marcrisney/Downloads/gz_2010_us_040_00_500k/gz_2010_us_040_00_500k.shp";
-		GeoToolsDataControl geotoolsDC = new GeoToolsDataControl(shapeFile);
-		RedisDataControl redisDC = new RedisDataControl();
-
-		Set<LatLong> latLongs = redisDC.getAllLatLongs();
-		Set<LatLong> unitedStateslatLongs = new HashSet<LatLong>();
-		int i = 0;
-		for (LatLong latlong : latLongs) {
-			System.out.println(i);
-			if (geotoolsDC.containedInShapeFiles(latlong)) {
-				System.out.println(latlong);
-				i++;
-				unitedStateslatLongs.add(latlong);
-			}
-		}
-
-		Gson gson = new GsonBuilder().serializeNulls().create();
-		String output = gson.toJson(unitedStateslatLongs);
-		System.out.println(output);
-	}
 
 	public GeoToolsDataControl(String fileURL) {
 
 		file = new File(fileURL);
 		if (!file.exists()) {
-			System.err.println(file + " doesn't exist");
+			logger.severe(file + " doesn't exist");
 			return;
 		}
 		try {
@@ -74,7 +53,7 @@ public class GeoToolsDataControl {
 			geomFctory = new GeometryFactory();
 
 		} catch (Exception e) {
-			System.out.println(e + " unable to connect to " + fileURL
+			logger.severe(e + " unable to connect to " + fileURL
 					+ " as data source");
 		}
 	}
@@ -99,5 +78,28 @@ public class GeoToolsDataControl {
 	private void setFeatures(SimpleFeatureCollection features) {
 		this.features = features;
 		env = features.getBounds();
+	}
+
+	public static void main(String[] args) throws IOException {
+
+		String shapeFile = "/Users/marcrisney/Downloads/gz_2010_us_040_00_500k/gz_2010_us_040_00_500k.shp";
+		GeoToolsDataControl geotoolsDC = new GeoToolsDataControl(shapeFile);
+		RedisDataControl redisDC = new RedisDataControl();
+
+		Set<LatLong> latLongs = redisDC.getAllLatLongs();
+		Set<LatLong> unitedStateslatLongs = new HashSet<LatLong>();
+		int i = 0;
+		for (LatLong latlong : latLongs) {
+			System.out.println(i);
+			if (geotoolsDC.containedInShapeFiles(latlong)) {
+				System.out.println(latlong);
+				i++;
+				unitedStateslatLongs.add(latlong);
+			}
+		}
+
+		Gson gson = new GsonBuilder().serializeNulls().create();
+		String output = gson.toJson(unitedStateslatLongs);
+		System.out.println(output);
 	}
 }

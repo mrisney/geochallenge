@@ -28,9 +28,9 @@ public class GeoNamesDataControl {
 	/**
 	 * 
 	 * @param searchString
-	 * @return org.risney.adf.model.Locations fuzzySearch constructs a
+	 * @return org.risney.inauth.geochallenge.model.Location fuzzySearch constructs a
 	 *         org.geonames.ToponymSearchCriteria object and uses the Geonames
-	 *         method WebService.search(searchCriteria) returing a list of
+	 *         method WebService.search(searchCriteria) returning a list of
 	 *         Toponyms. For the purpose of this example application, the last -
 	 *         or only Toponym is used, more sophisticated applications could
 	 *         fine tune the results.
@@ -63,9 +63,9 @@ public class GeoNamesDataControl {
 	 *
 	 * @param toponym
 	 * @param reQueryWebServie
-	 * @return org.risney.adf.model.Locations.Location
+	 * @return org.risney.inauth.geochallenge.model.Location
 	 *
-	 *         Creates a comma seperated string, by concatenating the Place
+	 *         Creates a comma separated string, by concatenating the Place
 	 *         name, followed the successive Admin codes that the adminName1,
 	 *         adminName2 and adminName3 provide - usually the city, followed by
 	 *         the state or province followed by the district or in the US - the
@@ -74,7 +74,7 @@ public class GeoNamesDataControl {
 	 *         There seems to be a bug in WebServices.findNearbyPlaceName - that
 	 *         returns a Toponym without a full feature, so using
 	 *         WebService.get(Toponym.getGeoNameId()..) seems to solve that
-	 *         problem. Passing a Boolean lets this method know wether to call
+	 *         problem. Passing a Boolean lets this method know whether to call
 	 *         it or not.
 	 *
 	 */
@@ -111,11 +111,9 @@ public class GeoNamesDataControl {
 	 * 
 	 * @param latitude
 	 * @param longitude
-	 * @return org.risney.adf.model.Locations.Location
+	 * @return org.risney.inauth.geochallenge.mode.Location
 	 * 
-	 *         getLocationAndWeatherWithCoordinates is primarily used by the
-	 *         onMapClick method in adf-leaflet.js, then executed from the proxy
-	 *         method serverEventHandler in the ManagedBean a
+	 *         getLocationAndWeatherWithCoordinates uses
 	 *         org.geonames.ToponymSearchCriteria object and uses the Geonames
 	 *         method WebService.search(searchCriteria) returning a list of
 	 *         Toponyms. For the purpose of this example application, the last -
@@ -144,9 +142,9 @@ public class GeoNamesDataControl {
 	 * 
 	 * @param toponym
 	 * @param reQueryWebServie
-	 * @return org.risney.adf.model.Locations.Location
+	 * @return  org.risney.inauth.geochallenge.mode..Location
 	 * 
-	 *         Creates a comma seperated string, by concatenating the Place
+	 *         Creates a comma separated string, by concatenating the Place
 	 *         name, followed the successive Admin codes that the adminName1,
 	 *         adminName2 and adminName3 provide - usually the city, followed by
 	 *         the state or province followed by the district or in the US - the
@@ -155,7 +153,7 @@ public class GeoNamesDataControl {
 	 *         There seems to be a bug in WebServices.findNearbyPlaceName - that
 	 *         returns a Toponym without a full feature, so using
 	 *         WebService.get(Toponym.getGeoNameId()..) seems to solve that
-	 *         problem. Passing a Boolean lets this method know wether to call
+	 *         problem. Passing a Boolean lets this method know whether to call
 	 *         it or not.
 	 * 
 	 */

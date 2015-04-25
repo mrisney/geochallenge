@@ -34,9 +34,9 @@ import com.google.gson.GsonBuilder;
 @Path("/")
 public class RESTServiceControl {
 	
-	private static final Logger logger = Logger.getLogger(RESTServiceControl.class.getName());
-	
-	
+
+	private static final Logger logger = Logger
+			.getLogger(RESTServiceControl.class.getName());
 
 	@GET
 	@Path("addData/{latitude}/{longitude}")
@@ -131,7 +131,9 @@ public class RESTServiceControl {
 							Location location = geoNamesDC
 									.getLocationWithCoordinates(
 											latlong.latitude, latlong.longitude);
-							output.write(gson.toJson(location) + "\n");
+							output.write(location.latitude + ","
+									+ location.longitude + ","
+									+ location.location + "\n");
 						} else {
 							redisDC.addOutsideUSLatLong(latlong);
 						}
@@ -214,9 +216,14 @@ public class RESTServiceControl {
 								proximateLocation.latitude = latlong.latitude;
 								proximateLocation.longitude = latlong.longitude;
 								proximateLocation.proximateFromCity = cityLocation.location;
-								proximateLocation.distance = distance;
-
-								output.write(gson.toJson(proximateLocation)
+								
+								// round distance up, to 2 decimal places
+								proximateLocation.distance = Math
+										.round(distance * 100.0) / 100.0;
+								output.write(proximateLocation.latitude + ","
+										+ proximateLocation.longitude + ","
+										+ proximateLocation.distance + ","
+										+ proximateLocation.proximateFromCity
 										+ "\n");
 
 							}

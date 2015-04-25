@@ -17,5 +17,4 @@ public class ProximateLocation extends LatLong {
 		return gson.toJson(this);
 	}
 
-
 }

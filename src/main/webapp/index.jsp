@@ -50,9 +50,7 @@ Lima, Peru
   	
   </div>
 
-  <div data-role="footer">
-    <h1>Footer Text</h1>
-  </div>
+  
 </div> 
 
 </body>
