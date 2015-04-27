@@ -6,11 +6,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -37,7 +39,12 @@ public class RESTServiceControl {
 
 	private static final Logger logger = Logger
 			.getLogger(RESTServiceControl.class.getName());
-
+	
+	/*
+	 * GET Method of adding a coordinate pair to Redis Database, through Redis DataControl
+	 * path parameters are : addData/{latitude}/{longitude
+	 * eg. addData/1.0/-1.0
+	 */
 	@GET
 	@Path("addData/{latitude}/{longitude}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -57,16 +64,21 @@ public class RESTServiceControl {
 
 		return Response.status(200).entity(output).build();
 	}
-
-	@GET
-	@Path("getData/{latitude}/{longitude}")
+	/*
+	 * POST Method of adding a coordinate pair to Redis Database, through Redis DataControl
+	 * POST parameters are Strings, converted to double :
+	 * parameters = (String) latitude and (String) longitude
+	 */
+	
+	@POST
+	@Path("postData/{latitude}/{longitude}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getData(@PathParam("latitude") double latitude,
-			@PathParam("longitude") double longitude) {
+	public Response post(String latitude, String longitude) {
 		RedisDataControl redisDC = new RedisDataControl();
-		String output = "{no coordinates found}";
+		String output = "{coordinates not added}";
 		try {
-			LatLong latLong = redisDC.getLatLong(latitude + ":" + longitude);
+			LatLong latLong = new LatLong( Double.parseDouble(latitude), Double.parseDouble(longitude));
+			redisDC.addLatLong(latLong);
 
 			Gson gson = new GsonBuilder().serializeNulls().create();
 			output = gson.toJson(latLong);
@@ -75,6 +87,21 @@ public class RESTServiceControl {
 		}
 
 		return Response.status(200).entity(output).build();
+	}
+	
+	
+
+	
+	@Path("getData/{latitude}/{longitude}")
+	public void getData(@PathParam("latitude") double latitude,
+			@PathParam("longitude") double longitude) {
+		RedisDataControl redisDC = new RedisDataControl();
+		try {
+			redisDC.addLatLong(new LatLong(latitude,longitude));
+		} catch (Exception ex) {
+			logger.warning(ex.getMessage());
+		}
+		
 	}
 
 	@GET
@@ -221,11 +248,11 @@ public class RESTServiceControl {
 								proximateLocation.distance = Math
 										.round(distance * 100.0) / 100.0;
 								output.write(proximateLocation.latitude + ","
-										+ proximateLocation.longitude + ","
-										+ proximateLocation.distance + ","
+										+ proximateLocation.longitude + " - "
+										+ proximateLocation.distance + " miles  from "
+							
 										+ proximateLocation.proximateFromCity
 										+ "\n");
-
 							}
 						}
 					}
@@ -240,12 +267,9 @@ public class RESTServiceControl {
 						logger.severe(iex.getMessage());
 					}
 				}
-
 			}
 		}.start();
-
 		return output;
-
 	}
 
 	@GET
@@ -275,6 +299,13 @@ public class RESTServiceControl {
 		RedisDataControl redisDC = new RedisDataControl();
 		redisDC.removeAll();
 		return Response.status(200).entity("{OK}").build();
+	}
+	
+	
+	public class CityNameComparator implements Comparator<ProximateLocation> {
+	    public int compare(ProximateLocation o1, ProximateLocation o2) {
+	        return o1.proximateFromCity.compareTo(o2.proximateFromCity);
+	    }
 	}
 
 }

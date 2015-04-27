@@ -1,6 +1,6 @@
 package org.risney.inauth.geochallenge.dc;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -14,7 +14,8 @@ import org.geonames.WebService;
 import org.risney.inauth.geochallenge.model.Location;
 
 public class GeoNamesDataControl {
-	private static final Logger logger = Logger.getLogger(GeoNamesDataControl.class.getName());
+	private static final Logger logger = Logger
+			.getLogger(GeoNamesDataControl.class.getName());
 	private static final int MAX_ROWS = 1;
 	private static final String USER_NAME = "mrisney";
 	private Map<String, Location> suggestedLocations;
@@ -28,12 +29,12 @@ public class GeoNamesDataControl {
 	/**
 	 * 
 	 * @param searchString
-	 * @return org.risney.inauth.geochallenge.model.Location fuzzySearch constructs a
-	 *         org.geonames.ToponymSearchCriteria object and uses the Geonames
-	 *         method WebService.search(searchCriteria) returning a list of
-	 *         Toponyms. For the purpose of this example application, the last -
-	 *         or only Toponym is used, more sophisticated applications could
-	 *         fine tune the results.
+	 * @return org.risney.inauth.geochallenge.model.Location fuzzySearch
+	 *         constructs a org.geonames.ToponymSearchCriteria object and uses
+	 *         the Geonames method WebService.search(searchCriteria) returning a
+	 *         list of Toponyms. For the purpose of this example application,
+	 *         the last - or only Toponym is used, more sophisticated
+	 *         applications could fine tune the results.
 	 * 
 	 */
 
@@ -142,7 +143,7 @@ public class GeoNamesDataControl {
 	 * 
 	 * @param toponym
 	 * @param reQueryWebServie
-	 * @return  org.risney.inauth.geochallenge.mode..Location
+	 * @return org.risney.inauth.geochallenge.mode..Location
 	 * 
 	 *         Creates a comma separated string, by concatenating the Place
 	 *         name, followed the successive Admin codes that the adminName1,
