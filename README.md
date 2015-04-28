@@ -13,5 +13,5 @@ April 24, 2015 4:55 PM PST
   the "3rd Find All Generated Data Not Within United States, 500 miles from Cities" can be issued.
 
 7. Generate Random Coordinate Points  will flush out the redis-db, and restart the generation of the 10K randonmly generated LAtLong Points
-8. A convenience methids "Remove All Generated Data", does the same.
+8. A convenience methods "Remove All Generated Data", does the same.
 
